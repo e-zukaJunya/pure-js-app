@@ -1,0 +1,58 @@
+// user agent styleの上書き
+html,
+body,
+h1 {
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+// #region ローダー関連スタイル
+// 背景
+.loader {
+  // bodyのサイズに合わせる
+  position: absolute;
+  min-height: 100vh;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  // 背景色
+  background-color: rgba($color: #000000, $alpha: 0.5);
+}
+
+// 中身
+.loaderInner {
+  // スクロールしても固定
+  position: fixed;
+  // 上下左右中央寄せ
+  text-align: center;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  // ボールの位置調整
+  .ball-pulse div {
+    margin: 10px;
+  }
+  // 文字のスタイル
+  .loadingExcuse {
+    color: white;
+    margin: 20px;
+    font-size: large;
+  }
+}
+// #endregion
+
+// 要素非表示
+.hidden {
+  display: none;
+}
+
+.imgContainerDiv {
+  height: 100px;
+  width: 100px;
+  background-image: url(./assets/js-icon.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}

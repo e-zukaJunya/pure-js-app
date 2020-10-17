@@ -19,7 +19,7 @@ module.exports = {
     // サーバーにおけるルートディレクトリの指定
     publicPath: "/",
     // 出力されるjsファイル名
-    filename: "my-bundle.js",
+    filename: "[name].js",
   },
   // import のルートディレクトリの指定
   resolve: { modules: [path.resolve(__dirname, "node_modules"), path.resolve(__dirname, "src")] },
@@ -32,6 +32,23 @@ module.exports = {
   // バンドルサイズの許容量に関するWARNINGをオフに
   performance: {
     hints: false,
+  },
+  // 共通モジュールを別ファイルに
+  optimization: {
+    splitChunks: {
+      // cacheGroups内にバンドルの設定を複数記述できる
+      cacheGroups: {
+        // 今回はvendorだが、任意の名前で問題ない
+        vendor: {
+          // node_modules配下のモジュールをバンドル対象とする
+          test: /[\\/]node_modules[\\/]/,
+          // 出力ファイル名
+          name: "vendor",
+          chunks: "initial",
+          enforce: true,
+        },
+      },
+    },
   },
   // 利用モジュール
   module: {
@@ -103,7 +120,7 @@ module.exports = {
   },
   // jsファイルのソースマップ指定
   // "eval-cheap-module-source-map"はリビルドがそれなりに早くてソースマップが効く
-  devtool: IS_DEVELOP ? "eval-cheap-module-source-map" : "none",
+  devtool: IS_DEVELOP ? "eval-cheap-module-source-map" : false,
   plugins: [
     // distディレクトリを空にする
     new CleanWebpackPlugin(),

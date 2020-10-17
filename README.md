@@ -1,51 +1,54 @@
 # Fundamental Webpack Env
 
-めちゃくちゃしょぼいWebアプリをPure JSで作成するときに使う開発環境テンプレート。
+めちゃくちゃしょぼい Web アプリを Pure JS で作成するときに使う開発環境テンプレート。
+
+ちょっとした検証なんかにも。
 
 状態管理や画面遷移が増えたら潔くフレームワークを使うこと。
 
+## Features
 
-# Features
-
-* ES6以降の文法書き放題！SCSSもかけちゃう！IEとかでも動くようにバベります。
-
-* build生成物は'dist'以下に出力。cssとjsは別になる。
-
-* async/await使いたかったら下記のimport書いてね。
+- ES6 以降の文法書き放題！SCSS もかけちゃう！IE とかでも動くようにバベります。
+- build 生成物は'dist'以下に出力。css と js は別になる。
+- async/await 使いたかったら下記の import 書いてね。
 
 ```js
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 ```
 
+- CSS フレームワークは特に入れてないが、loader.js と ress は入れてる。
 
-# Requirement
+## Requirement
 
-* Node.js 9.0以上
-* npm 9.0以上
+- Node.js >= 10.x
+- npm >= 6.x
 
-
-# Usage
+## Usage
 
 ```bash
 #ライブラリのインストール
-npm install
+yarn install
 
 # ローカル実行
-npm start
+yarn start
 
 # 開発用ビルド
-npm run build:d
+yarn run build:d
 
 # 製品用（圧縮）ビルド
-npm run build:p
+yarn run build:p
 
 ```
 
+## TODO
 
-# Author
+fibers
+
+## Author
+
 Junya Iizuka
 
+## License
 
-# License
 特になし

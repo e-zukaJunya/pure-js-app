@@ -6,8 +6,8 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 import "loaders.css";
 
-const IS_DEVELOP = process.env.NODE_ENV.trim() == "dev";
-console.log(process.env.NODE_ENV.trim());
+const IS_DEVELOP = process.env.NODE_ENV == "dev";
+console.log(process.env.NODE_ENV);
 console.log(IS_DEVELOP);
 
 const button = document.getElementById("button");

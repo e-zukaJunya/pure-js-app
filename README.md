@@ -17,7 +17,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 ```
 
-- CSS フレームワークは特に入れてないが、loader.js と ress は入れてる。
+- CSS フレームワークは、loaders.css と ress のみ入れてる。
 
 ## Requirement
 

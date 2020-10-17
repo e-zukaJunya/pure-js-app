@@ -1,28 +1,28 @@
 const path = require("path");
-const HtmlPlugin = require("html-webpack-plugin");
-// const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-// const Fiber = require("fibers");
+const Fiber = require("fibers");
 const Sass = require("sass");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const FaviconsWebpackPlugin = require("favicons-webpack-plugin");
-const webpack = require("webpack");
+const Webpack = require("webpack");
 
-const enableSourceMap = process.env.NODE_ENV === "dev";
-console.log(enableSourceMap);
+const IS_DEVELOP = process.env.NODE_ENV === "dev";
+console.log(IS_DEVELOP);
 
 module.exports = {
   // エントリーポイント
   entry: "./src/root.js",
-  // ビルド後、'./dist/my-bundle.js'というbundleファイルを生成する
   output: {
+    // ビルド生成物の出力先
     path: path.resolve(__dirname, "dist"),
+    // サーバーにおけるルートディレクトリの指定
+    publicPath: "/",
+    // 出力されるjsファイル名
     filename: "my-bundle.js",
   },
   // import のルートディレクトリの指定
   resolve: { modules: [path.resolve(__dirname, "node_modules"), path.resolve(__dirname, "src")] },
-  // 変更を監視してhot reloadやauto reloadする
-  watch: true,
   // 差分ビルド
   cache: true,
   // node_modulesをwatch対象から除外
@@ -40,6 +40,7 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
+          // ES5にバベる
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env"],
@@ -49,18 +50,19 @@ module.exports = {
       {
         test: /\.(sa|sc|c)ss$/,
         use: [
+          // CSSは別出し
           MiniCssExtractPlugin.loader,
           {
             loader: "css-loader",
             options: {
               url: true,
-              sourceMap: enableSourceMap,
+              sourceMap: IS_DEVELOP,
             },
           },
           {
             loader: "postcss-loader",
             options: {
-              sourceMap: enableSourceMap,
+              sourceMap: IS_DEVELOP,
               postcssOptions: {
                 plugins: [
                   // Autoprefixerを有効化
@@ -73,11 +75,13 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
+              // node-sassではなくdart-sass
               implementation: Sass,
-              sourceMap: enableSourceMap,
-              // sassOptions: {
-              //   fiber: Fiber
-              // }
+              sourceMap: IS_DEVELOP,
+              sassOptions: {
+                // fiberは入れとくとコンパイル速度が速くなるとか
+                fiber: Fiber,
+              },
             },
           },
         ],
@@ -97,12 +101,15 @@ module.exports = {
       },
     ],
   },
-  devtool: "inline-source-map",
+  // jsファイルのソースマップ指定
+  // "eval-cheap-module-source-map"はリビルドがそれなりに早くてソースマップが効く
+  devtool: IS_DEVELOP ? "eval-cheap-module-source-map" : "none",
   plugins: [
     // distディレクトリを空にする
     new CleanWebpackPlugin(),
     // 生成されるHTMLをsrcのものベースにする
-    new HtmlPlugin({ template: "src/index.html" }),
+    // todo 今はまだWARNING出る
+    new HtmlWebpackPlugin({ template: "src/index.html" }),
     // CSS別出し指定
     new MiniCssExtractPlugin(),
     // ファビコン生成
@@ -110,15 +117,12 @@ module.exports = {
     // https://github.com/jantimon/favicons-webpack-plugin/issues/222
     // new FaviconsWebpackPlugin("/src/assets/js-icon.png"),
     // 環境変数受け渡し
-    new webpack.EnvironmentPlugin(["NODE_ENV"]),
-    // HMR
-    // new webpack.HotModuleReplacementPlugin(),
+    new Webpack.EnvironmentPlugin(["NODE_ENV"]),
   ],
   // webpack-dev-serverの設定
   devServer: {
     contentBase: path.join(__dirname, "src"),
     openPage: "index.html",
     open: true,
-    hot: true,
   },
 };

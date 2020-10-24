@@ -119,8 +119,8 @@ module.exports = {
     ],
   },
   // jsファイルのソースマップ指定
-  // "eval-cheap-module-source-map"はリビルドがそれなりに早くてソースマップが効く
-  devtool: IS_DEVELOP ? "eval-cheap-module-source-map" : false,
+  // "eval-cheap-module-source-map"だとリビルドがそれなりに早くてJSソースマップが効くがCSSが効かない
+  devtool: IS_DEVELOP ? "source-map" : false,
   plugins: [
     // distディレクトリを空にする
     new CleanWebpackPlugin(),

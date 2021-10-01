@@ -32,7 +32,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "core-js": "^3.6.5",
     "loaders.css": "^0.1.2",
     "regenerator-runtime": "^0.13.7",
